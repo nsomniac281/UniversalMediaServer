@@ -951,10 +951,6 @@ public abstract class DLNAResource extends HTTPResource implements Cloneable, Ru
 				LOGGER.trace("File \"{}\" will be forced to be transcoded by configuration", getName());
 			}
 
-			for (DLNAMediaSubtitle s : media.getSubtitleTracksList()) {
-				hasEmbeddedSubs = (hasEmbeddedSubs || s.isEmbedded());
-			}
-
 			boolean isIncompatible = false;
 			String audioTracksList = getName() + media.getAudioTracksList().toString();
 
