@@ -571,6 +571,32 @@ public class FormatConfiguration {
 			);
 		} else {
 			String finalMimeType = null;
+			if (media.isSLS()) {
+				/*
+				 * MPEG-4 SLS is a special case and must be treated differently. It
+				 * consists of a MPEG-4 ISO container with two audio tracks, the
+				 * first is the lossy "core" stream and the second is the SLS
+				 * correction stream. When the SLS stream is applied to the core
+				 * stream the result is lossless. It is arranged this way so that
+				 * players that can't play SLS can still play the (lossy) core
+				 * stream. Because of this, only compatibility for the first audio
+				 * track needs to be checked.
+				 */
+				DLNAMediaAudio audio = media.getFirstAudioTrack();
+				return match(
+					media.getContainer(),
+					media.getCodecV(),
+					audio.getCodecA(),
+					audio.getAudioProperties().getNumberOfChannels(),
+					audio.getSampleRate(),
+					audio.getBitRate(),
+					media.getWidth(),
+					media.getHeight(),
+					media.getExtras(),
+					null,
+					false
+				);
+			}
 
 			for (DLNAMediaAudio audio : media.getAudioTracksList()) {
 				String mimeType = match(
@@ -594,62 +620,8 @@ public class FormatConfiguration {
 				}
 			}
 
-			
-//			return finalMimeType;
+			return finalMimeType;
 		}
-
-		if (media.isSLS()) {
-			/*
-			 * MPEG-4 SLS is a special case and must be treated differently. It
-			 * consists of a MPEG-4 ISO container with two audio tracks, the
-			 * first is the lossy "core" stream and the second is the SLS
-			 * correction stream. When the SLS stream is applied to the core
-			 * stream the result is lossless. It is arranged this way so that
-			 * players that can't play SLS can still play the (lossy) core
-			 * stream. Because of this, only compatibility for the first audio
-			 * track needs to be checked.
-			 */
-			DLNAMediaAudio audio = media.getFirstAudioTrack();
-			return match(
-				media.getContainer(),
-				media.getCodecV(),
-				audio.getCodecA(),
-				audio.getAudioProperties().getNumberOfChannels(),
-				audio.getSampleRate(),
-				audio.getBitRate(),
-				media.getWidth(),
-				media.getHeight(),
-				media.getExtras(),
-				null,
-				false
-			);
-		}
-
-		String finalMimeType = null;
-
-		for (DLNAMediaAudio audio : media.getAudioTracksList()) {
-			String mimeType = match(
-				media.getContainer(),
-				media.getCodecV(),
-				audio.getCodecA(),
-				audio.getAudioProperties().getNumberOfChannels(),
-				audio.getSampleRate(),
-				media.getBitrate(),
-				media.getWidth(),
-				media.getHeight(),
-				media.getExtras(),
-				null,
-				false
-			);
-
-			finalMimeType = mimeType;
-
-			if (mimeType == null) { // if at least one audio track is not compatible, the file must be transcoded.
-				return null;
-			}
-		}
-
-		return finalMimeType;
 	}
 
 	public String match(String container, String videoCodec, String audioCodec) {
