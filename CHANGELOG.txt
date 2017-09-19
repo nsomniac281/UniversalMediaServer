@@ -1,7 +1,121 @@
-6.6.1 - 2017-03-??
+6.7.3 - 2017-08-13
 
 	General:
-		
+		Improved support for AVI and MJPEG
+		Improved general DLNA implementation
+		Fixed duplicate entries in transcode folders
+		Fixed logging in macOS
+		Fixed menu name in macOS
+	Renderers:
+		Added renderer configuration for conversion of 3D video to 2D
+		Added support for Fetch TV
+		Added support for Onkyo TXNR8xx
+		Improved support for Cambridge Audio Azur BD
+		Improved support for OPPO BDP
+		Improved support for Panasonic VIERA TXL32V10E
+		Improved support for Sony BRAVIA 5500 and EX TVs
+		Improved support for Sony SMP-N100
+		Improved support for Sony STR-DA5800ES
+		Fixed album art for Onkyo receivers (and probably others)
+		Fixed support for Xbox 360
+	Dependencies:
+		Updated MediaInfo to 0.7.97, which:
+			Improves support for HEVC (H.265), FLV, MKV, TIFF and more
+
+6.7.2 - 2017-07-09
+
+	General:
+		Added support for WMA10
+		Improved splash screen timing and enabled it by default
+		Improved support for MediaInfo on non-Windows platforms
+		Improved CPU and memory logging
+		Improved detection of network speed
+		Updated comments in DefaultRenderer.conf
+		Updated documentation
+		Fixed trace logging on macOS
+		Fixed a crash on Windows 10
+	Languages:
+		Synchronized translations with Crowdin
+		Fixed Hebrew language support
+	Dependencies:
+		Updated FFmpeg
+		Updated JNA to 4.4.0
+		Updated Surefire to 2.20
+
+6.7.1 - 2017-06-11
+
+	General:
+		Fixed playback on Linux
+		Fixed support for OGA and 3GA files
+	Dependencies:
+		Updated MediaInfo to 0.7.96
+
+6.7.0 - 2017-06-10
+
+	General:
+		Added a button for the web interface
+		Expanded support for preventing sleep mode on Windows and macOS
+		Improved support for MusicBrainz
+		Improved support for CoverArtArchive
+		Improved support for images
+		Improved thumbnailing
+		Updated documentation
+		Improved DIDL-Lite implementation
+		Added support for more RealAudio formats
+		Fixed DVD support
+		Fixed many bugs
+	Languages:
+		Synchronized translations with Crowdin
+	Renderers:
+		Added support for Chromecast Ultra
+		Added support for MXPlayer on Google Android
+		Added support for Microsoft Windows Media Player
+		Improved support for Chromecast
+		Improved support for Samsung 9 Series TVs
+		Improved support for Sony BRAVIA EX TVs
+		Improved detection of Onkyo TXNR7xx devices
+		Improved detection of Panasonic Viera ST60 TVs
+		Improved detection of Samsung J6400 TVs
+		Improved detection of Samsung JU6400 TVs
+		Improved detection of Samsung Galaxy S5 phones
+		Improved detection of Sony BRAVIA XE TVs
+	Dependencies:
+		Updated external-maven-plugin to 0.2
+		Updated FFmpeg to latest builds
+		Upgraded LogBack to version 1.2.3
+		Updated maven-surefire-plugin to 2.20
+		Updated MediaInfo to 0.7.94
+		Updated metadata-extractor to 2.10.1
+		Updated TwelveMonkeys ImageIO to version 3.3.1
+
+7.0.0-b2 - 2017-04-02
+
+	General:
+		Fixed bugs with the fully played feature
+	Languages:
+		Synchronized translations with Crowdin
+
+7.0.0-b1 - 2017-03-26 - Changes since 7.0.0-a1
+
+	General:
+		Added "Unwatched" folder to the videos folder if "Hide fully played media" is not enabled
+		File addition/removal is handled specifically instead of doing a library scan
+		Optimized database storage
+		Reduced memory use
+		Fixed the setting to hide fully played media in the Media Library
+		Fixed sorting in Media Library virtual folders
+		Fixed thread-safety/concurrency bugs
+		All changes in 6.5.3 and 6.6.0
+		Improved logging
+	Languages:
+		Synchronized translations with Crowdin
+	Renderers:
+		Improved support for Samsung 9 series TVs
+		Improved detection of Panasonic ST60 TVs
+		Improved detection of Samsung JU6400 TVs
+	Dependencies:
+		Updated external-maven-plugin to 0.2
+		Updated FFmpeg to the latest builds
 
 6.6.0 - 2017-02-25
 
@@ -57,6 +171,18 @@
 		Updated Maven Site plugin to 3.6
 		Updated Maven Surefire plugin to 2.19.1
 		Updated Maven Surefire Report plugin to 2.19.1
+
+7.0.0-a1 - 2016-12-31
+
+	General:
+		Added "TV Shows", "Movies", "3D Movies", and "Unsorted" folders to the "Media Library" folder
+		Added right-click menu to navigation pane
+		Renamed "Cache" folder to "Media Library" folder and enabled it by default
+		Changed "Hide" options to "Show", e.g. "Hide Media Library folder" becomes "Show Media Library folder"
+		Library is re-scanned whenever a file is added/changed/removed in a shared folder
+		Fixed bug where removing a directory in UMS does not remove its contents from the Media Library.
+		Fixed sorting in dynamic folders
+		Fully played tracking is stored in the SQL database
 
 6.5.2 - 2016-11-27
 

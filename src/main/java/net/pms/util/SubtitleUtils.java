@@ -492,8 +492,8 @@ public class SubtitleUtils {
 		}
 		BufferedWriter output;
 		Mode3D mode3D = media.get3DLayout();
-		boolean isOU = mode3D == Mode3D.OUL || mode3D == Mode3D.OUR || mode3D == Mode3D.HOUL;
-		boolean isSBS = mode3D == Mode3D.SBSL || mode3D == Mode3D.SBSR || mode3D == Mode3D.HSBSL;
+		boolean isOU = mode3D == Mode3D.ABL || mode3D == Mode3D.ABR || mode3D == Mode3D.AB2L;
+		boolean isSBS = mode3D == Mode3D.SBSL || mode3D == Mode3D.SBSR || mode3D == Mode3D.SBS2L;
 		if (mode3D == null) {
 			LOGGER.debug("The 3D layout not recognized for the 3D video");
 			throw new NullPointerException("The 3D layout not recognized for the 3D video");
@@ -628,16 +628,16 @@ public class SubtitleUtils {
 	public static InputStream removeSubRipTags(File file) throws IOException {
 		BufferedReader input = FileUtil.bufferedReaderWithCorrectCharset(file);
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
-		Writer writer = new OutputStreamWriter(os, Charset.forName(CHARSET_UTF_8));
-		Pattern pattern = Pattern.compile("\\</?(?:b|i|s|u|font[^\\>]*)\\>|\\{\\\\.*?}|\\\\h|\\\\N");
-		String line;
-		while ((line = input.readLine()) != null) {
-			line = pattern.matcher(line).replaceAll("") + "\n";
-			writer.write(line);
-		}
+		try (Writer writer = new OutputStreamWriter(os, Charset.forName(CHARSET_UTF_8))) {
+			Pattern pattern = Pattern.compile("\\</?(?:b|i|s|u|font[^\\>]*)\\>|\\{\\\\.*?}|\\\\h|\\\\N");
+			String line;
+			while ((line = input.readLine()) != null) {
+				line = pattern.matcher(line).replaceAll("") + "\n";
+				writer.write(line);
+			}
 
-		writer.flush();
-		writer.close();
+			writer.flush();
+		}
 		LOGGER.trace("Removed tags from subtitles file: \"{}\"", file.getName());
 		return new ByteArrayInputStream(os.toByteArray());
 	}
