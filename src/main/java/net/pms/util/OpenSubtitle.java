@@ -124,8 +124,7 @@ public class OpenSubtitle {
 			page = new StringBuilder();
 			String str;
 			while ((str = in.readLine()) != null) {
-				page.append(str.trim())
-					.append("\n");
+				page.append(str.trim()).append("\n");
 			}
 		}
 
@@ -161,20 +160,30 @@ public class OpenSubtitle {
 				usr = cred.username;
 			}
 
-			StringBuilder sb = new StringBuilder();
-			String req = sb.append("<methodCall>\n<methodName>LogIn</methodName>\n<params>\n")
-							.append("<param>\n<value><string>")
-							.append(usr)
-							.append("</string></value>\n</param>\n")
-							.append("<param>\n")
-							.append("<value><string>")
-							.append(pwd)
-							.append("</string></value>\n</param>\n<param>\n<value><string/></value>\n")
-							.append("</param>\n<param>\n<value><string>")
-							.append(UA)
-							.append("</string></value>\n</param>\n")
-							.append("</params>\n")
-							.append("</methodCall>\n").toString();
+			String req =
+				"<methodCall>\n" +
+					"<methodName>LogIn</methodName>\n" +
+					"<params>\n" +
+						"<param>\n" +
+							"<value>" +
+								"<string>" + usr + "</string>" +
+							"</value>\n" +
+						"</param>\n" +
+						"<param>\n" +
+							"<value>" +
+								"<string>" + pwd + "</string>" +
+							"</value>\n" +
+						"</param>\n" +
+						"<param>\n" +
+							"<value><string/></value>\n" +
+						"</param>\n" +
+						"<param>\n" +
+							"<value>" +
+								"<string>" + UA + "</string>" +
+							"</value>\n" +
+						"</param>\n" +
+					"</params>\n" +
+				"</methodCall>\n";
 			Pattern re = Pattern.compile("token.*?<string>([^<]+)</string>", Pattern.DOTALL);
 			Matcher m = re.matcher(postPage(url.openConnection(), req));
 			if (m.find()) {
@@ -214,16 +223,28 @@ public class OpenSubtitle {
 		tokenLock.readLock().lock();
 		String req = null;
 		try {
-			StringBuilder sb = new StringBuilder();
-			req = sb.append("<methodCall>\n<methodName>CheckMovieHash</methodName>\n")
-					.append("<params>\n<param>\n<value><string>")
-					.append(token)
-					.append("</string></value>\n</param>\n")
-					.append("<param>\n<value>\n<array>\n<data>\n<value><string>")
-					.append(hash)
-					.append("</string></value>\n")
-					.append("</data>\n</array>\n</value>\n</param>")
-					.append("</params>\n</methodCall>\n").toString();
+			req =
+				"<methodCall>\n" +
+					"<methodName>CheckMovieHash</methodName>\n" +
+						"<params>\n" +
+							"<param>\n" +
+								"<value>" +
+									"<string>" + token + "</string>" +
+								"</value>\n" +
+							"</param>\n" +
+							"<param>\n" +
+								"<value>\n" +
+									"<array>\n" +
+										"<data>\n" +
+											"<value>" +
+												"<string>" + hash + "</string>" +
+											"</value>\n" +
+										"</data>\n" +
+									"</array>\n" +
+								"</value>\n" +
+							"</param>" +
+						"</params>\n" +
+					"</methodCall>\n";
 		} finally {
 			tokenLock.readLock().unlock();
 		}
@@ -303,24 +324,36 @@ public class OpenSubtitle {
 		String hashStr = "";
 		String imdbStr = "";
 		String qStr = "";
-		StringBuilder sb = new StringBuilder();
 		if (!StringUtils.isEmpty(hash)) {
-			hashStr = sb.append("<member><name>moviehash</name><value><string>")
-						.append(hash)
-						.append("</string></value></member>\n")
-						.append("<member><name>moviebytesize</name><value><double>")
-						.append(size)
-						.append("</double></value></member>\n").toString();
+			hashStr =
+				"<member>" +
+					"<name>moviehash</name>" +
+					"<value>" +
+						"<string>" + hash + "</string>" +
+					"</value>" +
+				"</member>\n" +
+				"<member>" +
+					"<name>moviebytesize</name>" +
+					"<value>" +
+						"<double>" + size + "</double>" +
+					"</value>" +
+				"</member>\n";
 		} else if (!StringUtils.isEmpty(imdb)) {
-			sb.setLength(0);
-			imdbStr = sb.append("<member><name>imdbid</name><value><string>")
-						.append(imdb)
-						.append("</string></value></member>\n").toString();
+			imdbStr =
+				"<member>" +
+					"<name>imdbid</name>" +
+					"<value>" +
+						"<string>" + imdb + "</string>" +
+					"</value>" +
+				"</member>\n";
 		} else if (!StringUtils.isEmpty(query)) {
-			sb.setLength(0);
-			qStr = sb.append("<member><name>query</name><value><string>")
-						.append(query)
-						.append("</string></value></member>\n").toString();
+			qStr =
+				"<member>" +
+					"<name>query</name>" +
+					"<value>" +
+						"<string>" + query + "</string>" +
+					"</value>" +
+				"</member>\n";
 		} else {
 			return res;
 		}
@@ -328,20 +361,38 @@ public class OpenSubtitle {
 		String req = null;
 		tokenLock.readLock().lock();
 		try {
-			sb.setLength(0);
-			req = sb.append("<methodCall>\n<methodName>SearchSubtitles</methodName>\n")
-					.append("<params>\n<param>\n<value><string>")
-					.append(token)
-					.append("</string></value>\n</param>\n")
-					.append("<param>\n<value>\n<array>\n<data>\n<value><struct><member><name>sublanguageid")
-					.append("</name><value><string>")
-					.append(lang)
-					.append("</string></value></member>")
-					.append(hashStr)
-					.append(imdbStr)
-					.append(qStr).append("\n")
-					.append("</struct></value></data>\n</array>\n</value>\n</param>")
-					.append("</params>\n</methodCall>\n").toString();
+			req =
+				"<methodCall>\n" +
+					"<methodName>SearchSubtitles</methodName>\n" +
+					"<params>\n" +
+						"<param>\n" +
+							"<value>" +
+								"<string>" + token + "</string>" +
+							"</value>\n" +
+						"</param>\n" +
+						"<param>\n" +
+							"<value>\n" +
+								"<array>\n" +
+									"<data>\n" +
+										"<value>" +
+											"<struct>" +
+												"<member>" +
+													"<name>sublanguageid</name>" +
+													"<value>" +
+														"<string>" + lang + "</string>" +
+													"</value>" +
+												"</member>" +
+													hashStr +
+													imdbStr +
+													qStr + "\n" +
+											"</struct>" +
+										"</value>" +
+									"</data>\n" +
+								"</array>\n" +
+							"</value>\n" +
+						"</param>" +
+					"</params>\n" +
+				"</methodCall>\n";
 		} finally {
 			tokenLock.readLock().unlock();
 		}
@@ -420,24 +471,36 @@ public class OpenSubtitle {
 		String hashStr = "";
 		String imdbStr = "";
 		String qStr = "";
-		StringBuilder sb = new StringBuilder();
 		if (!StringUtils.isEmpty(hash)) {
-			hashStr = sb.append("<member><name>moviehash</name><value><string>")
-						.append(hash)
-						.append("</string></value></member>\n")
-						.append("<member><name>moviebytesize</name><value><double>")
-						.append(size)
-						.append("</double></value></member>\n").toString();
+			hashStr =
+				"<member>" +
+					"<name>moviehash</name>" +
+					"<value>" +
+						"<string>" + hash + "</string>" +
+					"</value>" +
+				"</member>\n" +
+				"<member>" +
+					"<name>moviebytesize</name>" +
+					"<value>" +
+						"<double>" + size + "</double>" +
+					"</value>" +
+				"</member>\n";
 		} else if (!StringUtils.isEmpty(imdb)) {
-			sb.setLength(0);
-			imdbStr = sb.append("<member><name>imdbid</name><value><string>")
-						.append(imdb)
-						.append("</string></value></member>\n").toString();
+			imdbStr =
+				"<member>" +
+					"<name>imdbid</name>" +
+					"<value>" +
+						"<string>" + imdb + "</string>" +
+					"</value>" +
+				"</member>\n";
 		} else if (!StringUtils.isEmpty(query)) {
-			sb.setLength(0);
-			qStr = sb.append("<member><name>query</name><value><string>")
-						.append(query)
-						.append("</string></value></member>\n").toString();
+			qStr =
+				"<member>" +
+					"<name>query</name>" +
+					"<value>" +
+						"<string>" + query + "</string>" +
+					"</value>" +
+				"</member>\n";
 		} else {
 			return null;
 		}
@@ -445,31 +508,49 @@ public class OpenSubtitle {
 		String req = null;
 		tokenLock.readLock().lock();
 		try {
-			sb.setLength(0);
-			req = sb.append("<methodCall>\n<methodName>SearchSubtitles</methodName>\n")
-				.append("<params>\n<param>\n<value><string>")
-				.append(token)
-				.append("</string></value>\n</param>\n")
-				.append("<param>\n<value>\n<array>\n<data>\n<value><struct><member><name>sublanguageid")
-				.append("</name><value><string>")
-				.append(lang)
-				.append("</string></value></member>")
-				.append(hashStr)
-				.append(imdbStr)
-				.append(qStr).append("\n")
-				.append("</struct></value></data>\n</array>\n</value>\n</param>")
-				.append("</params>\n</methodCall>\n").toString();
+			req =
+				"<methodCall>\n" +
+					"<methodName>SearchSubtitles</methodName>\n" +
+					"<params>\n" +
+						"<param>\n" +
+							"<value>" +
+								"<string>" + token + "</string>" +
+							"</value>\n" +
+						"</param>\n" +
+						"<param>\n" +
+							"<value>\n" +
+								"<array>\n" +
+									"<data>\n" +
+										"<value>" +
+											"<struct>" +
+												"<member>" +
+													"<name>sublanguageid</name>" +
+													"<value>" +
+														"<string>" + lang + "</string>" +
+													"</value>" +
+												"</member>" +
+												hashStr +
+												imdbStr +
+												qStr + "\n" +
+											"</struct>" +
+										"</value>" +
+									"</data>\n" +
+								"</array>\n" +
+							"</value>\n" +
+						"</param>" +
+					"</params>\n" +
+				"</methodCall>\n";
 		} finally {
 			tokenLock.readLock().unlock();
 		}
-
-		sb.setLength(0);;
-		sb.append(".*IDMovieImdb</name>.*?<string>([^<]+)</string>.*?" ).append("")
-			.append("MovieName</name>.*?<string>([^<]+)</string>.*?")
-			.append("SeriesSeason</name>.*?<string>([^<]+)</string>.*?")
-			.append("SeriesEpisode</name>.*?<string>([^<]+)</string>.*?")
-			.append("MovieYear</name>.*?<string>([^<]+)</string>.*?");
-		Pattern re = Pattern.compile(sb.toString(),	Pattern.DOTALL);
+		Pattern re = Pattern.compile(
+			".*IDMovieImdb</name>.*?<string>([^<]+)</string>.*?" +
+			"MovieName</name>.*?<string>([^<]+)</string>.*?" +
+			"SeriesSeason</name>.*?<string>([^<]+)</string>.*?" +
+			"SeriesEpisode</name>.*?<string>([^<]+)</string>.*?" +
+			"MovieYear</name>.*?<string>([^<]+)</string>.*?",
+			Pattern.DOTALL
+		);
 		String page = postPage(url.openConnection(), req);
 		Matcher m = re.matcher(page);
 		if (m.find()) {
