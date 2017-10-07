@@ -48,11 +48,24 @@ public class SubSelFile extends VirtualFolder {
 		List<String> sortedKeys = new ArrayList<>(data.keySet());
 		Collections.sort(sortedKeys, new SubSort(getDefaultRenderer()));
 		for (String key : sortedKeys) {
-			LOGGER.debug("Add play live subtitle child {} rf {}", key, orig);
+			LOGGER.debug("Add play subtitle child " + key + " rf " + orig);
+			DLNAMediaSubtitle sub = orig.getMediaSubtitle();
+			if (sub == null) {
+				sub = new DLNAMediaSubtitle();
+			}
 			String lang = OpenSubtitle.getLang(key);
 			String name = OpenSubtitle.getName(key);
-			PlaySub playSub = new PlaySub(name, lang, (RealFile) orig, (String) data.get(key));
-			addChild(playSub);
+			sub.setType(SubtitleType.SUBRIP);
+			sub.setId(101);
+			sub.setLang(lang);
+			sub.setLiveSub((String) data.get(key), OpenSubtitle.subFile(name + "_" + lang));
+			DLNAResource nrf = orig.clone();
+			nrf.setMediaSubtitle(sub);
+			nrf.setHasExternalSubtitles(true);
+			addChild(nrf);
+			if (rf != null) {
+				((RealFile) nrf).ignoreThumbHandling();
+			}
 		}
 	}
 

@@ -18,20 +18,18 @@ public class PlaySub extends DLNAResource {
 	private String name;
 	private File subFile;
 
-	public PlaySub(String name, String lang, RealFile realFile, String url) {
+	public PlaySub(String name, String lang, RealFile real, String url) {
 		this.name = name;
-		this.real = realFile;
+		this.real = real;
 		this.url = url;
 		this.lang = lang;
 		this.subFile = new File(OpenSubtitle.subFile(name + "_" + lang));
-		this.setFormat(real.getFormat());
 	}
 
 	private void getSubFile() throws FileNotFoundException, IOException {
 		if (subFile.exists()) {
 			return;
 		}
-
 		OpenSubtitle.fetchSubs(url, subFile.getAbsolutePath());
 	}
 
@@ -45,7 +43,6 @@ public class PlaySub extends DLNAResource {
 			LOGGER.info("Failed to get subtitles for " + real.getDisplayName());
 			return;
 		}
-
 		DLNAMediaSubtitle sub = new DLNAMediaSubtitle();
 		try {
 			sub.setExternalFile(subFile, null);
@@ -53,9 +50,8 @@ public class PlaySub extends DLNAResource {
 			LOGGER.info("Failed to download subtitle file: " + subFile.getName());
 			return;
 		}
-
 		sub.setType(SubtitleType.SUBRIP);
-		sub.setId(101);
+		sub.setId(1);
 		sub.setLang(lang);
 		real.setMediaSubtitle(sub);
 	}
@@ -78,7 +74,6 @@ public class PlaySub extends DLNAResource {
 			return DLNAThumbnailInputStream.toThumbnailInputStream(getResourceInputStream("images/codes/" + lang + ".png"));
 		} catch (Exception e) {
 		}
-
 		return super.getThumbnailInputStream();
 	}
 
