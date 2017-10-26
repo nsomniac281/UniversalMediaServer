@@ -11,4 +11,4 @@
     Save the zip file to a location you will remember
     Create the new issue. Describe your problem and attach the zip file
     
-    Thanks for your patricipation
+   #  Thanks for your patricipation
