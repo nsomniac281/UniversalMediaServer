@@ -1,3 +1,5 @@
+   # How to contribute
+   
    Often in order to help diagnose and fix your issue we need your "debug information". We have made it very easy to save and attach it to made the issue:
 
     Start UMS
