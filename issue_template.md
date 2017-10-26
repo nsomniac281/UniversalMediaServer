@@ -1,4 +1,4 @@
-   Often in order to help diagnose and fix your issue we need your "debug information". We have made it very easy to save and attach it to the forum:
+   Often in order to help diagnose and fix your issue we need your "debug information". We have made it very easy to save and attach it to made the issue:
 
     Start UMS
     Go to the Logs tab
@@ -7,5 +7,6 @@
     Click "Pack debug files" on the lower left
     Click "Zip selected files"
     Save the zip file to a location you will remember
-    Attach the zip file to your support thread (or start a new one) using the "Upload attachment" tab below the main text input box
-    If you are unable to add an attachment to our forum, you can use an upload site like Uploaded
+    Create the new issue. Describe your problem and attach the zip file
+    
+    Thanks for your patricipation
